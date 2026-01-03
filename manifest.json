@@ -6,7 +6,6 @@
     "permissions": [
         "offscreen",
         "tabs",
-        "storage",
         "storage"
     ],
     "background": {

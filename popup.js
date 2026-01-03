@@ -147,10 +147,11 @@ chrome.runtime.sendMessage({ type: 'GET_STATUS' }, (response) => {
 updateUI();
 
 // Buy me a coffee handler
+// Buy me a coffee handler
 document.getElementById('coffeeBtn').addEventListener('click', (e) => {
   e.preventDefault();
-  // REPLACE THIS with your actual link!
-  chrome.tabs.create({ url: 'https://www.buymeacoffee.com/' });
+  const url = e.currentTarget.href;
+  chrome.tabs.create({ url: url });
 });
 
 console.log('Popup script loaded');

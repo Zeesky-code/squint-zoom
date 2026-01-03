@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Camera Test</title>
+    <style>
+        body {
+            font-family: system-ui;
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        video {
+            width: 100%;
+            max-width: 400px;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        button {
+            padding: 12px 24px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background: #45a049;
+        }
+
+        .status {
+            padding: 12px;
+            margin: 20px 0;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .success {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .error {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .info {
+            background: #e3f2fd;
+            color: #1565c0;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Camera Access Test</h1>
+    <p>This page tests if Chrome can access your camera.</p>
+
+    <button id="testBtn">Test Camera Access</button>
+
+    <div id="status"></div>
+
+    <video id="video" autoplay playsinline style="display:none;"></video>
+
+    <script>
+        const video = document.getElementById('video');
+        const statusDiv = document.getElementById('status');
+        const testBtn = document.getElementById('testBtn');
+
+        function showStatus(message, type = 'info') {
+            statusDiv.className = `status ${type}`;
+            statusDiv.innerHTML = message;
+        }
+
+        async function testCamera() {
+            try {
+                showStatus('📹 Requesting camera access...', 'info');
+
+                const stream = await navigator.mediaDevices.getUserMedia({
+                    video: {
+                        width: { ideal: 320 },
+                        height: { ideal: 240 }
+                    }
+                });
+
+                video.srcObject = stream;
+                video.style.display = 'block';
+
+                showStatus('✅ Camera access granted! You should see video above.', 'success');
+
+                // Log details
+                console.log('Stream tracks:', stream.getTracks());
+                const videoTrack = stream.getVideoTracks()[0];
+                console.log('Video track settings:', videoTrack.getSettings());
+
+            } catch (error) {
+                console.error('Camera error:', error);
+
+                let errorMsg = `❌ <strong>Error:</strong> ${error.name}<br><br>`;
+
+                if (error.name === 'NotAllowedError') {
+                    errorMsg += `
+            <strong>Camera permission denied.</strong><br><br>
+            <strong>To fix:</strong><br>
+            1. Look for a camera icon in Chrome's address bar<br>
+            2. Click it and select "Always allow"<br>
+            3. If no icon, go to: chrome://settings/content/camera<br>
+            4. Ensure camera is set to "Sites can ask to use your camera"<br>
+            5. Reload this page and try again
+          `;
+                } else if (error.name === 'NotFoundError') {
+                    errorMsg += 'No camera detected. Please connect a camera.';
+                } else if (error.name === 'NotReadableError') {
+                    errorMsg += 'Camera is in use by another application.';
+                } else {
+                    errorMsg += error.message;
+                }
+
+                showStatus(errorMsg, 'error');
+            }
+        }
+
+        testBtn.addEventListener('click', testCamera);
+
+        // Show available devices
+        navigator.mediaDevices.enumerateDevices().then(devices => {
+            const videoDevices = devices.filter(d => d.kind === 'videoinput');
+            console.log('Available cameras:', videoDevices);
+
+            if (videoDevices.length === 0) {
+                showStatus('⚠️ No cameras detected on this device.', 'error');
+            } else {
+                showStatus(`📹 ${videoDevices.length} camera(s) detected. Click "Test Camera Access" to begin.`, 'info');
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            width: 300px;
+            padding: 16px;
+            font-family: system-ui, -apple-system, sans-serif;
+            margin: 0;
+        }
+
+        h2 {
+            margin: 0 0 12px 0;
+            font-size: 18px;
+            color: #1a1a1a;
+        }
+
+        .status {
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status.inactive {
+            background: #f5f5f5;
+            color: #666;
+        }
+
+        .status.active {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: currentColor;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        button.start {
+            background: #4CAF50;
+            color: white;
+        }
+
+        button.start:hover {
+            background: #45a049;
+        }
+
+        button.stop {
+            background: #f44336;
+            color: white;
+        }
+
+        button.stop:hover {
+            background: #da190b;
+        }
+
+        .info {
+            margin-top: 16px;
+            padding: 12px;
+            background: #f5f5f5;
+            border-radius: 8px;
+            font-size: 12px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .settings {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .setting-row {
+            margin-bottom: 12px;
+        }
+
+        label {
+            display: block;
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 4px;
+        }
+
+        input[type="range"] {
+            width: 100%;
+        }
+
+        .value-display {
+            font-size: 12px;
+            color: #1a1a1a;
+            font-weight: 500;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Squint Zoom</h2>
+
+    <div class="status inactive" id="status">
+        <div class="indicator"></div>
+        <span>Monitoring: Inactive</span>
+    </div>
+
+    <button class="start" id="toggleBtn">Start Monitoring</button>
+
+    <button class="start" id="setupBtn" style="display:none; background:#2196F3;">
+        Setup Camera Permission
+    </button>
+
+    <div style="margin: 15px 0; border-top: 1px solid #eee;"></div>
+
+    <button id="calibrateBtn" style="background:#555; color:white; margin-bottom:15px;">
+        Calibrate Sensitivity
+    </button>
+
+    <div class="settings">
+        <div class="setting-row">
+            <label for="sensitivity">
+                Squint Sensitivity
+                <span class="value-display" id="sensitivityValue">Medium</span>
+            </label>
+            <input type="range" id="sensitivity" min="1" max="3" value="2" step="1">
+        </div>
+
+        <div class="setting-row">
+            <label for="duration">
+                Hold Duration
+                <span class="value-display" id="durationValue">0.8s</span>
+            </label>
+            <input type="range" id="duration" min="500" max="2000" value="800" step="100">
+        </div>
+    </div>
+
+    <div class="info">
+        <strong>How it works:</strong> Squint for about 1 second to zoom in. The extension runs entirely on your device
+        - no video leaves your computer.
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+
+</html>

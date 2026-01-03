@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Squint Detection Offscreen</title>
+</head>
+
+<body>
+    <video id="video" style="display:none;" width="320" height="240" autoplay></video>
+    <canvas id="canvas" style="display:none;"></canvas>
+    <iframe id="sandbox" src="sandbox.html" style="display:none;"></iframe>
+
+    <!-- Load MediaPipe libraries from local files -->
+    <script src="libs/camera_utils.js"></script>
+    <script src="libs/face_mesh.js"></script>
+    <script src="offscreen.js"></script>
+</body>
+
+</html>

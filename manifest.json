@@ -7,7 +7,7 @@
         "offscreen",
         "tabs",
         "storage",
-        "notifications"
+        "storage"
     ],
     "background": {
         "service_worker": "background.js"

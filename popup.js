@@ -146,4 +146,11 @@ chrome.runtime.sendMessage({ type: 'GET_STATUS' }, (response) => {
 // Initial UI update
 updateUI();
 
+// Buy me a coffee handler
+document.getElementById('coffeeBtn').addEventListener('click', (e) => {
+  e.preventDefault();
+  // REPLACE THIS with your actual link!
+  chrome.tabs.create({ url: 'https://www.buymeacoffee.com/' });
+});
+
 console.log('Popup script loaded');
